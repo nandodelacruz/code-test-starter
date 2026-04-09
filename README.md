@@ -239,7 +239,7 @@ npx jest --init
 
 ### Spacing
 
-- **Consistent margins/padding** - Use a scale (4px, 8px, 16px, 24px, 32px)
+- **Consistent margins/padding** - Ideally use global variables for this
 - **Breathing room** - Don't cram elements together
 - **Grid gaps** - Consistent spacing between cards
 
@@ -251,7 +251,6 @@ Want to stand out? Here's some extra credit:
 
 - 🌟 **Book Search/Filter** - Find books by title or author
 - 🌟 **Quantity Controls** - Increase/decrease item quantities
-- 🌟 **Cart Animations** - Fly-to-cart animations
 - 🌟 **Empty States** - Beautiful "your cart is empty" page
 - 🌟 **Accessibility** - ARIA labels, keyboard navigation
 - 🌟 **Performance** - Image optimization, lazy loading
