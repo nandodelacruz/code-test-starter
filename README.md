@@ -14,10 +14,10 @@
 
 Create an online book shop that's a joy to use! We're looking for:
 
-- **Gorgeous UI** - Books displayed consistently across all pages
+- **Clean UI** - Books displayed consistently across all pages
 - **Responsive Design** - Looks amazing on mobile, tablet, and desktop
 - **Smooth Shopping** - Add to cart, remove from cart, happy days
-- **Clean Architecture** - Code that's a pleasure to read and maintain
+- **Consistent Architecture** - Code that's a pleasure to read and maintain
 - **Tested Quality** - Confidence that everything works as expected
 
 ---
@@ -54,7 +54,7 @@ Create an online book shop that's a joy to use! We're looking for:
 
 #### State Management
 
-- **Cart State** - Cart must read from centralized state (your choice how!)
+- **Cart State** - Cart must read from centralized state, it's your choice on how
 - **State Updates** - Predictable and debuggable state changes
 - **Performance** - Only re-render what needs to update
 
@@ -67,8 +67,7 @@ Create an online book shop that's a joy to use! We're looking for:
 
 #### Constants
 
-- **Centralized Configuration** - Constants folder for strings, routes, etc.
-- **No Magic Strings** - All UI text should be configurable
+- **Centralized Configuration** - Use `constants` folder to centralise strings
 - **Easy Updates** - Change things in one place
 
 ---
@@ -104,6 +103,8 @@ npm install @tanstack/router vite @tanstack/react-query
 - Perfect for SPA purists
 
 **Pro tip:** Pick one approach and commit to it. We're looking for consistency and good decision-making!
+
+---
 
 ### Pick Your Styling
 
@@ -179,6 +180,7 @@ npx tailwindcss init -p
 ### Step 1: Choose Your Framework
 
 **For Next.js:**
+
 ```bash
 npm install next
 # Create app/ directory with layout.tsx and page.tsx
@@ -186,6 +188,7 @@ npm install next
 ```
 
 **For TanStack Router + Vite:**
+
 ```bash
 npm install -D vite @vitejs/plugin-react
 npm install @tanstack/router @tanstack/react-query
@@ -199,7 +202,7 @@ npm install @tanstack/router @tanstack/react-query
 Import the book types and data from `src/lib/books.ts`:
 
 ```typescript
-import { books, type Book } from '@/lib/books';
+import { books, type Book } from "@/lib/books";
 ```
 
 ### Step 3: Build Your Pages
