@@ -167,6 +167,8 @@ npx tailwindcss init -p
 
 ### 💻 Developer Experience
 
+- [ ] Did you use an LLM & how?
+- [ ] Show your commit history
 - [ ] Clean, readable code
 - [ ] Clear comments where needed
 - [ ] Easy to understand the flow
@@ -286,3 +288,5 @@ When reviewing your submission, we'll be thinking:
 _We're excited to see your creation_
 
 </div>
+
+Integrations & Add JSON into database

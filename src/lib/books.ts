@@ -12,20 +12,20 @@ export const books = [
     title: "The Great Gatsby",
     author: "F. Scott Fitzgerald",
     price: 10,
-    cover: "/images/gatsby.jpg",
+    cover: "https://m.media-amazon.com/images/I/51Bm6JUCscL._SY522_.jpg",
   },
   {
     id: 2,
     title: "The Catcher in the Rye",
     author: "J.D. Salinger",
     price: 12,
-    cover: "/images/catcher.jpg",
+    cover: "https://m.media-amazon.com/images/I/61cfToP7pgL._SL1500_.jpg",
   },
   {
     id: 3,
     title: "To Kill a Mockingbird",
     author: "Harper Lee",
     price: 15,
-    cover: "/images/mockingbird.jpg",
+    cover: "https://m.media-amazon.com/images/I/51lVvSDLQJL._SY522_.jpg",
   },
 ];
