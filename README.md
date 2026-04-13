@@ -74,6 +74,49 @@ Create an online book shop that's a joy to use! We're looking for:
 
 ## 🔧 Tech Choices
 
+### Choose Your Database (Bonus Points) 🗄️
+
+**We highly recommend implementing database integration instead of hardcoded data. Candidates who do this will receive preferred consideration!**
+
+**Option A: PostgreSQL + Docker** ⭐ (PREFERRED)
+
+```bash
+# Create docker-compose.yml
+docker-compose up -d
+# Connect to database and create table
+# Seed with book data from books.ts
+```
+
+- Industry-standard relational database
+- Production-grade approach
+- Shows full-stack understanding
+- Containerization skills (Docker)
+- **We give preference to candidates who choose this option**
+
+**Option B: Supabase** ☁️
+
+```bash
+npm install @supabase/supabase-js
+# Create Supabase project
+# Run SQL to create books table
+# Insert book data
+```
+
+- PostgreSQL under the hood (still a real database!)
+- Hosted solution, no Docker needed
+- Built-in authentication
+- Real-time subscriptions
+- Great for quick deployment
+
+**Why Database Integration Matters:**
+
+Real-world applications don't hardcode data. We want to see:
+
+- Server-side data fetching from a real database
+- Proper data modeling (schemas, types, constraints)
+- Production-ready architecture
+- Full-stack skills beyond static data
+
 ### Choose Your Framework
 
 **Option A: Next.js** 🚀
@@ -179,7 +222,11 @@ npx tailwindcss init -p
 
 ## 🚀 Getting Started
 
-### Step 1: Choose Your Framework
+### Step 1: Set Up Your Data
+
+Import the book types and data from `src/lib/books.ts`:
+
+### Step 2: Choose Your Framework
 
 **For Next.js:**
 
@@ -198,10 +245,6 @@ npm install @tanstack/router @tanstack/react-query
 # Create main.tsx entry point
 # Update package.json scripts: "dev": "vite"
 ```
-
-### Step 2: Set Up Your Data
-
-Import the book types and data from `src/lib/books.ts`:
 
 ```typescript
 import { books, type Book } from "@/lib/books";
