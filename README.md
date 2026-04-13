@@ -222,9 +222,9 @@ npx tailwindcss init -p
 
 ## 🚀 Getting Started
 
-### Step 1: Set Up Your Data
+### Step 2: Set Up Your Data
 
-Import the book types and data from `src/lib/books.ts`:
+Use the book types and data from `src/lib/books.ts` to set up the database schema:
 
 ### Step 2: Choose Your Framework
 
