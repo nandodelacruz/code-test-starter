@@ -37,6 +37,7 @@ Create an online book shop that's a joy to use! We're looking for:
 #### UI & UX Must-Haves
 
 - **Consistent Book Display** - Every book card looks uniform and polished
+- **Light Theme** - The page background colour is white
 - **Responsive Pages** - Test on mobile! We will too 📱
 - **Loading States** - Show something beautiful while data loads
 - **Error States** - Graceful handling when things go wrong
