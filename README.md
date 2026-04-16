@@ -21,7 +21,9 @@ Create an online book shop that's a joy to use! We're looking for:
 - **Tested Quality** - Confidence that everything works as expected
 
 ```typescript
-There are no Figma Design Files, it is up to you on how you would like to show the books consistently in line with the outlined requirements
+# There are no Figma Design Files
+# - It is up to you on how you would like to show the books consistently
+# - in line with the outlined requirements
 ```
 
 ---
