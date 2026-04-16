@@ -20,6 +20,10 @@ Create an online book shop that's a joy to use! We're looking for:
 - **Consistent Architecture** - Code that's a pleasure to read and maintain
 - **Tested Quality** - Confidence that everything works as expected
 
+```typescript
+There are no Figma Design Files, it is up to you on how you would like to show the books consistently in line with the outlined requirements
+```
+
 ---
 
 ## ✨ Requirements
