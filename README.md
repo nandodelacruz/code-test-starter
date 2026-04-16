@@ -22,8 +22,9 @@ Create an online book shop that's a joy to use! We're looking for:
 
 ```bash
 There are no Figma Design Files
- - It is up to you on how you would like to show the books consistently
- - in line with the outlined requirements
+# It is up to decide how you would like to show the books consistently
+# In line with the outlined requirements
+# Please keep it simple, there is not need to do more than what we have asked for :)
 ```
 
 ---
