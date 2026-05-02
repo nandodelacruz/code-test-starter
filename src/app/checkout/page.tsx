@@ -154,12 +154,13 @@ export default function CheckoutPage() {
             <ul className="space-y-4 max-h-[40vh] overflow-y-auto pr-2 custom-scrollbar">
               {items.map((item) => (
                 <li key={item.id} className="flex gap-3">
-                  <div className="relative h-16 w-12 flex-shrink-0 rounded bg-muted overflow-hidden border">
+                  <div className="w-12 aspect-[2/3] flex-shrink-0 rounded-md overflow-hidden bg-muted border">
                     <Image
                       src={item.cover}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
+                      alt={`Cover of ${item.title}`}
+                      width={48}
+                      height={72}
+                      className="h-full w-full object-contain p-1"
                       sizes="48px"
                     />
                   </div>
