@@ -15,6 +15,8 @@ BookHaven is a full-stack bookshop code test built with Next.js 16 (App Router),
 5. **Path alias** — always use `@/` for imports from `src/`.
 6. **shadcn components** — located in `src/components/ui/`. Do NOT run the shadcn CLI.
 7. **Constants** — new string literals (labels, routes, messages) go in `src/constants/`.
+8. **Linting** — uses ESLint 9 (flat config). Configuration is in `eslint.config.mjs`.
+9. **Image Optimization** — use `priority` prop for above-the-fold images.
 
 ## Common Tasks
 
@@ -39,9 +41,11 @@ export default async function MyPage() {
 import { useState } from "react";
 ```
 
-### Running Tests
+### Running Quality Checks
 
 ```bash
+npm run lint
+npm run format
 npm run test
 npm run test:watch
 ```

@@ -48,6 +48,8 @@ prisma/
 - **Constants**: All UI strings, route paths, and config values should live in `src/constants/`.
 - **Tailwind v4**: This project uses Tailwind CSS v4. Do NOT use `tailwind.config.js`. Configuration is done via `globals.css` using the `@import "tailwindcss"` directive.
 - **shadcn/ui**: Components are manually placed in `src/components/ui/`. Do NOT run `npx shadcn-ui add` — add components manually.
+- **Image Optimization**: Use `next/image`. For above-the-fold images (like the first row of books), always use the `priority` prop to satisfy LCP requirements.
+- **Linting & Formatting**: This project uses ESLint 9 (Flat Config) and Prettier. Always run `npm run format` and `npm run lint` before committing.
 
 ## Commands
 
@@ -56,6 +58,9 @@ npm run dev        # Start the development server
 npm run build      # Build for production
 npm run test       # Run Jest tests
 npm run test:watch # Run Jest in watch mode
+npm run lint       # Run ESLint 9 (flat config)
+npm run lint:fix   # Auto-fix lint issues
+npm run format     # Format code with Prettier
 npm run db:push    # Sync Prisma schema to the database
 npm run db:seed    # Seed the database with initial book data
 ```
