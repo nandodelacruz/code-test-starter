@@ -1,15 +1,15 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
 import { Search, ShoppingCart, Loader2 } from "lucide-react";
 
-import { SITE, ROUTES, LABELS } from "@/constants";
+import { SITE, LABELS } from "@/constants";
 import { Header } from "@/components/layout/Header";
 import { BookGrid } from "@/components/features/BookGrid";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useBookList } from "@/context/BookListContext";
+import { useCart } from "@/context/CartContext";
 
 export function HomeContent() {
   const {
@@ -18,6 +18,7 @@ export function HomeContent() {
     setSearchQuery: setQuery,
     isLoading,
   } = useBookList();
+  const { totalItems, openCart } = useCart();
   const [showHeader, setShowHeader] = useState(false);
   const headingRef = useRef<HTMLDivElement>(null);
 
@@ -51,16 +52,24 @@ export function HomeContent() {
       >
         {/* Top bar for Cart */}
         <div className="flex justify-end mb-8 sm:mb-12">
-          <Link href={ROUTES.CART}>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full hover:bg-muted/50"
-              aria-label={`${LABELS.CART} (0 items)`}
-            >
-              <ShoppingCart className="h-5 w-5" />
-            </Button>
-          </Link>
+          <Button
+            id="home-cart-button"
+            variant="ghost"
+            size="icon"
+            className="relative rounded-full hover:bg-muted/50"
+            aria-label={`${LABELS.CART} (${totalItems} ${totalItems === 1 ? "item" : "items"})`}
+            onClick={openCart}
+          >
+            <ShoppingCart className="h-5 w-5" />
+            {totalItems > 0 && (
+              <span
+                className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-primary-foreground text-[10px] font-bold leading-none"
+                aria-hidden="true"
+              >
+                {totalItems > 9 ? "9+" : totalItems}
+              </span>
+            )}
+          </Button>
         </div>
 
         {/* Page heading + inline controls — observed for header reveal */}

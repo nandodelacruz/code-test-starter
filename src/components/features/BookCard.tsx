@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 
 import { LABELS } from "@/constants";
@@ -10,18 +12,27 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { Book } from "@/types";
+import { useCart } from "@/context/CartContext";
 
 interface BookCardProps extends Book {
   priority?: boolean;
 }
 
 export function BookCard({
+  id,
   title,
   author,
   price,
   cover,
   priority = false,
 }: BookCardProps) {
+  const { addToCart, openCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart({ id, title, author, price, cover });
+    openCart();
+  };
+
   return (
     <Card className="flex flex-col overflow-hidden group transition-shadow duration-[var(--transition-base)] hover:shadow-lg">
       <CardHeader className="p-0">
@@ -54,8 +65,10 @@ export function BookCard({
 
       <CardFooter className="p-4 sm:p-5 pt-0">
         <Button
+          id={`add-to-cart-${id}`}
           className="w-full font-semibold transition-all duration-[var(--transition-base)] hover:shadow-md"
           aria-label={`${LABELS.ADD_TO_CART}: ${title}`}
+          onClick={handleAddToCart}
         >
           {LABELS.ADD_TO_CART}
         </Button>

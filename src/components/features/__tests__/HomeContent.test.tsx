@@ -8,6 +8,21 @@ jest.mock("@/context/BookListContext", () => ({
   useBookList: jest.fn(),
 }));
 
+// Mock the CartContext hook
+jest.mock("@/context/CartContext", () => ({
+  useCart: jest.fn(() => ({
+    totalItems: 0,
+    openCart: jest.fn(),
+    closeCart: jest.fn(),
+    addToCart: jest.fn(),
+    removeFromCart: jest.fn(),
+    updateQuantity: jest.fn(),
+    items: [],
+    totalPrice: 0,
+    isOpen: false,
+  })),
+}));
+
 // Mock next/image to avoid src issues in tests
 jest.mock("next/image", () => ({
   __esModule: true,

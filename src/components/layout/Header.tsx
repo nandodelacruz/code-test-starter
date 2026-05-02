@@ -4,9 +4,10 @@ import Link from "next/link";
 import { ShoppingCart, Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { ROUTES, SITE, LABELS } from "@/constants";
+import { SITE, LABELS } from "@/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useCart } from "@/context/CartContext";
 
 interface HeaderProps {
   onSearch?: (query: string) => void;
@@ -19,6 +20,8 @@ export function Header({
   searchQuery = "",
   visible = false,
 }: HeaderProps) {
+  const { totalItems, openCart } = useCart();
+
   return (
     <header
       className={cn(
@@ -32,7 +35,7 @@ export function Header({
       >
         {/* Logo */}
         <Link
-          href={ROUTES.HOME}
+          href="/"
           className="flex items-center gap-2 shrink-0 transition-opacity hover:opacity-80"
         >
           <span className="text-base sm:text-lg font-bold tracking-tight">
@@ -59,16 +62,24 @@ export function Header({
         </div>
 
         {/* Cart */}
-        <Link href={ROUTES.CART} className="shrink-0">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="relative"
-            aria-label={`${LABELS.CART} (0 items)`}
-          >
-            <ShoppingCart className="h-5 w-5" />
-          </Button>
-        </Link>
+        <Button
+          id="header-cart-button"
+          variant="ghost"
+          size="icon"
+          className="relative shrink-0"
+          aria-label={`${LABELS.CART} (${totalItems} ${totalItems === 1 ? "item" : "items"})`}
+          onClick={openCart}
+        >
+          <ShoppingCart className="h-5 w-5" />
+          {totalItems > 0 && (
+            <span
+              className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-primary-foreground text-[10px] font-bold leading-none"
+              aria-hidden="true"
+            >
+              {totalItems > 9 ? "9+" : totalItems}
+            </span>
+          )}
+        </Button>
       </div>
     </header>
   );

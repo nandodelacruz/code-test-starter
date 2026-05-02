@@ -20,4 +20,13 @@ export const LABELS = {
   REMOVE_FROM_CART: "Remove",
   CART: "Cart",
   BY_AUTHOR: "by",
+  TOTAL: "Total",
+  CHECKOUT: "Checkout",
+  CONTINUE_SHOPPING: "Continue Shopping",
+  VIEW_FULL_CART: "View Full Cart",
+} as const;
+
+// Site-wide messages
+export const SITE_MESSAGES = {
+  CART_EMPTY: "Your cart is empty.",
 } as const;
