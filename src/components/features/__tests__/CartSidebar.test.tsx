@@ -174,13 +174,6 @@ describe("CartSidebar", () => {
     expect(totals.length).toBeGreaterThanOrEqual(2);
   });
 
-  it("renders the View Full Cart link when items are present", () => {
-    renderWithContext({ items: [mockItem], totalItems: 2, totalPrice: 25.98 });
-    const viewFullCartLink = screen.getByText(/view full cart/i);
-    expect(viewFullCartLink).toBeInTheDocument();
-    expect(viewFullCartLink.closest("a")).toHaveAttribute("href", "/cart");
-  });
-
   it("renders Checkout link to /checkout and closes cart on click", () => {
     const closeCart = jest.fn();
     renderWithContext({

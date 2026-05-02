@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   CreditCard,
@@ -36,12 +36,7 @@ export default function CheckoutPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // Mock processing time
     await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // In a real app, we would clear the cart state here
-    // Our CartContext should ideally have a clearCart method
     router.push(ROUTES.CHECKOUT_SUCCESS);
   };
 
@@ -51,15 +46,14 @@ export default function CheckoutPage() {
       style={{ maxWidth: "var(--container-max)" }}
     >
       <Link
-        href={ROUTES.CART}
+        href={ROUTES.HOME}
         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-10 group"
       >
         <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-        Return to cart
+        Back to bookshop
       </Link>
 
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
-        {/* Left: Shipping Form */}
         <div className="flex-[2] space-y-10">
           <section className="space-y-6">
             <h1 className="text-3xl font-extrabold tracking-tight">Checkout</h1>
@@ -153,7 +147,6 @@ export default function CheckoutPage() {
           </section>
         </div>
 
-        {/* Right: Order Summary */}
         <aside className="flex-1 lg:max-w-sm">
           <div className="rounded-2xl border bg-muted/30 p-6 space-y-6 sticky top-24">
             <h2 className="text-xl font-bold tracking-tight">Order Summary</h2>

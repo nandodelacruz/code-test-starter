@@ -1,13 +1,11 @@
-import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
-import { CartPageContent } from "@/components/features/CartPageContent";
-import { SITE, LABELS } from "@/constants";
+import { ROUTES } from "@/constants";
 
-export const metadata: Metadata = {
-  title: `${LABELS.CART} — ${SITE.NAME}`,
-  description: "Review the books in your cart and proceed to checkout.",
-};
-
-export default function CartPage() {
-  return <CartPageContent />;
+/**
+ * Legacy `/cart` URL — the dedicated cart page is deprecated in favour of the
+ * sliding cart plus `/checkout`. Keep this redirect for bookmarks and old links.
+ */
+export default function CartPageRedirect() {
+  redirect(ROUTES.CHECKOUT);
 }

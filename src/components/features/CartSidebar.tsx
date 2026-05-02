@@ -238,16 +238,6 @@ export function CartSidebar() {
             </Button>
 
             <Button
-              id="cart-view-full-button"
-              variant="outline"
-              className="w-full font-semibold"
-              onClick={closeCart}
-              asChild
-            >
-              <Link href={ROUTES.CART}>{LABELS.VIEW_FULL_CART}</Link>
-            </Button>
-
-            <Button
               variant="ghost"
               className="w-8/12 mx-auto flex text-muted-foreground text-xs"
               onClick={closeCart}

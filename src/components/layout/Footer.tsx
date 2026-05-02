@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { FooterCartLink } from "@/components/layout/FooterCartLink";
 import { ROUTES, SITE } from "@/constants";
 
 export function Footer() {
@@ -18,12 +19,7 @@ export function Footer() {
           >
             Home
           </Link>
-          <Link
-            href={ROUTES.CART}
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Cart
-          </Link>
+          <FooterCartLink />
         </nav>
       </div>
     </footer>

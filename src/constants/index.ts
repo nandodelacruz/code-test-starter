@@ -1,10 +1,11 @@
 // Route paths
 export const ROUTES = {
   HOME: "/",
+  /** @deprecated `/cart` redirects to `CHECKOUT`. Use `CHECKOUT` for links. */
   CART: "/cart",
-  BOOK_DETAIL: "/book",
   CHECKOUT: "/checkout",
   CHECKOUT_SUCCESS: "/checkout/success",
+  BOOK_DETAIL: "/book",
 } as const;
 
 // UI strings
@@ -26,7 +27,6 @@ export const LABELS = {
   TOTAL: "Total",
   CHECKOUT: "Checkout",
   CONTINUE_SHOPPING: "Continue Shopping",
-  VIEW_FULL_CART: "View Full Cart",
   ISBN: "ISBN",
   DESCRIPTION: "Description",
   BOOK_DETAILS: "Book Details",

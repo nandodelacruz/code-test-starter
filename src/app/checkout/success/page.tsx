@@ -11,7 +11,6 @@ import { ROUTES } from "@/constants";
 export default function CheckoutSuccessPage() {
   const { clearCart } = useCart();
 
-  // Clear the cart on successful checkout
   useEffect(() => {
     clearCart();
   }, [clearCart]);

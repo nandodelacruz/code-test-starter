@@ -24,9 +24,9 @@ src/
     layout.tsx          # Root layout (CartProvider + ErrorBoundaryShell + shell UI)
     page.tsx            # Homepage (Server Component, fetches from DB)
     error.tsx           # Route-level error UI (reset + link home)
-    cart/               # Full cart page
+    cart/               # `/cart` redirects to `/checkout` (deprecated dedicated cart page)
+    checkout/           # Full-screen checkout + `/checkout/success`
     book/[id]/          # Book detail (Server Component, BookService.getById)
-    checkout/           # Mock checkout form + success page
     globals.css         # Tailwind v4 + shadcn CSS variables
   components/
     ui/                 # shadcn/ui base components (Button, Card, etc.)
@@ -118,7 +118,7 @@ When adding or changing schema fields for production-style workflows, use **`npx
 - Minimum prop drilling.
 - Cart must **persist** across page refreshes (use `localStorage`).
 - Support: Add to cart, Remove from cart, quantity updates, clear cart, view total.
-- **`isHydrated`**: `CartContext` exposes `isHydrated` after the initial `localStorage` read. Client routes that depend on cart contents (e.g. `/checkout`) must not redirect or assume emptiness until `isHydrated` is true.
+- **`isHydrated`**: `CartContext` exposes `isHydrated` after the initial `localStorage` read. Client flows that depend on cart contents (e.g. `/checkout`) must not redirect or assume emptiness until `isHydrated` is true.
 - **Accessibility**: `CartAnnouncer` (`aria-live="polite"`) announces cart changes; cart sidebar focuses the close control when opened and returns focus to `#header-cart-button` when closed.
 
 ## Errors & boundaries
