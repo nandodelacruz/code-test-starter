@@ -25,6 +25,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --shadow-3xl: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+  --shadow-book: 20px 20px 40px -10px rgba(0, 0, 0, 0.4);
 }
 
 @layer base {

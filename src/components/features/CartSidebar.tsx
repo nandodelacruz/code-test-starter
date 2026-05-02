@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { X, Minus, Plus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
+import { BookImage } from "@/components/features/BookImage";
 
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
@@ -135,14 +135,13 @@ export function CartSidebar() {
                   key={item.id}
                   className="flex gap-4 py-4 border-b last:border-0 group"
                 >
-                  {/* Cover thumbnail */}
-                  <div className="w-16 h-24 flex-shrink-0 rounded-md overflow-hidden bg-muted">
-                    <Image
+                  <div className="w-16 flex-shrink-0">
+                    <BookImage
                       src={item.cover}
                       alt={`Cover of ${item.title}`}
-                      width={64}
-                      height={96}
-                      className="h-full w-full object-contain p-1"
+                      padding="p-1"
+                      containerClassName="rounded-md shadow-md"
+                      showEffects={false}
                     />
                   </div>
 

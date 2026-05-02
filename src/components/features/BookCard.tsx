@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
+import { BookImage } from "@/components/features/BookImage";
 
 import { LABELS, ROUTES } from "@/constants";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -65,16 +65,14 @@ export function BookCard({
       aria-label={`View details for ${title}`}
     >
       <Card className="flex flex-col h-full rounded-xl border bg-card p-4 shadow-sm transition-all duration-500 hover:border-primary/15 hover:shadow-md">
-        <div className="relative mb-4 aspect-[3/4] w-full overflow-hidden rounded-xl bg-muted shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
-          <Image
-            src={cover}
-            alt={`Cover of ${title}`}
-            fill
-            className="object-contain p-3 sm:p-4"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            priority={priority}
-          />
-        </div>
+        <BookImage
+          src={cover}
+          alt={`Cover of ${title}`}
+          priority={priority}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          containerClassName="mb-4 group-hover:scale-[1.03] group-hover:shadow-3xl rounded-xl"
+          className="group-hover:scale-[1.02]"
+        />
 
         <CardContent className="flex-1 p-0">
           <h3 className="text-base font-bold leading-tight line-clamp-2 mb-1.5 group-hover:text-primary transition-colors">

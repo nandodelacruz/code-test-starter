@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ShieldCheck, Truck, BookOpen } from "lucide-react";
+import { BookImage } from "@/components/features/BookImage";
 
 import { BookService } from "@/lib/services/book.service";
 import { AddToCartButton } from "@/components/features/BookCard";
@@ -50,14 +50,13 @@ export default async function BookPage({ params }: Props) {
       </Link>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-start">
-        {/* Left: Cover */}
-        <div className="relative aspect-[3/4] w-full max-w-md mx-auto rounded-xl overflow-hidden bg-muted shadow-2xl transition-transform hover:scale-[1.02] duration-500">
-          <Image
+        <div className="flex-1 max-w-md mx-auto w-full">
+          <BookImage
             src={book.cover}
             alt={`Cover of ${book.title}`}
-            fill
             priority
-            className="object-contain p-4 md:p-8"
+            padding="p-6 md:p-10"
+            containerClassName="shadow-3xl hover:scale-[1.02] duration-500 rounded-2xl"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>

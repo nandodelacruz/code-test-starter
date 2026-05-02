@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -11,6 +10,7 @@ import {
   ShieldCheck,
   ShoppingBag,
 } from "lucide-react";
+import { BookImage } from "@/components/features/BookImage";
 
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
@@ -154,13 +154,13 @@ export default function CheckoutPage() {
             <ul className="space-y-4 max-h-[40vh] overflow-y-auto pr-2 custom-scrollbar">
               {items.map((item) => (
                 <li key={item.id} className="flex gap-3">
-                  <div className="w-12 aspect-[2/3] flex-shrink-0 rounded-md overflow-hidden bg-muted border">
-                    <Image
+                  <div className="w-12 flex-shrink-0">
+                    <BookImage
                       src={item.cover}
                       alt={`Cover of ${item.title}`}
-                      width={48}
-                      height={72}
-                      className="h-full w-full object-contain p-1"
+                      padding="p-0.5"
+                      containerClassName="rounded border shadow-sm"
+                      showEffects={false}
                       sizes="48px"
                     />
                   </div>

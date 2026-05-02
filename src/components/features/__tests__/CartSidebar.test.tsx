@@ -14,10 +14,16 @@ import { CartItem } from "@/context/CartContext";
 
 jest.mock("next/image", () => ({
   __esModule: true,
-  default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img {...props} />
-  ),
+  default: (props: Record<string, unknown>) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { fill, priority, ...rest } = props;
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        {...(rest as unknown as React.ImgHTMLAttributes<HTMLImageElement>)}
+      />
+    );
+  },
 }));
 
 jest.mock("next/link", () => ({
