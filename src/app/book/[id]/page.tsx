@@ -8,6 +8,9 @@ import { BookService } from "@/lib/services/book.service";
 import { AddToCartButton } from "@/components/features/BookCard";
 import { LABELS, ROUTES } from "@/constants";
 
+/** Same as home: metadata + page load the DB; keep build free of Neon/Prisma. */
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: Promise<{ id: string }>;
 }

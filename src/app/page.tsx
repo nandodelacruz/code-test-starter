@@ -3,6 +3,9 @@ import { HomeContent } from "@/components/features/HomeContent";
 import { BookService } from "@/lib/services/book.service";
 import { BookListProvider } from "@/context/BookListContext";
 
+/** Avoid querying Postgres during `next build` (static prerender); fetch at request time instead. */
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const books = await BookService.list();
 
