@@ -52,6 +52,7 @@ jest.mock("next/image", () => ({
           : "";
     const width = typeof props.width === "number" ? props.width : undefined;
     const height = typeof props.height === "number" ? props.height : undefined;
+    const fill = Boolean(props.fill);
     const className =
       typeof props.className === "string" ? props.className : undefined;
     const sizes = typeof props.sizes === "string" ? props.sizes : undefined;
@@ -61,11 +62,17 @@ jest.mock("next/image", () => ({
       <img
         alt={alt}
         src={src}
-        width={width}
-        height={height}
+        width={fill ? undefined : width}
+        height={fill ? undefined : height}
         className={className}
         sizes={sizes}
+        data-fill={fill ? "true" : undefined}
         data-priority={priority ? "true" : undefined}
+        style={
+          fill
+            ? { position: "absolute", inset: 0, width: "100%", height: "100%" }
+            : undefined
+        }
       />
     );
   },

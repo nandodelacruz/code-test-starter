@@ -71,13 +71,12 @@ export function BookCard({
     >
       <Card className="flex flex-col h-full overflow-hidden transition-all duration-[var(--transition-base)] hover:shadow-xl hover:border-primary/20 bg-background border">
         <CardHeader className="p-0">
-          <div className="aspect-[2/3] overflow-hidden bg-muted/30 relative">
+          <div className="aspect-[2/3] overflow-hidden bg-secondary relative">
             <Image
               src={cover}
               alt={`Cover of ${title}`}
-              width={400}
-              height={600}
-              className="h-full w-full object-contain p-2 transition-transform duration-700 group-hover:scale-110"
+              fill
+              className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               priority={priority}
             />
