@@ -12,7 +12,8 @@
     "db:push": "prisma db push",
     "db:seed": "npx tsx prisma/seed.ts",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
