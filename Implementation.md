@@ -1,18 +1,20 @@
 # BookHaven — Implementation guide
 
-This document describes how this repository is built and how to run it locally. It complements the assignment-focused [`README.md`](README.md); architectural conventions for agents are in [`AGENTS.md`](AGENTS.md) and [`CLAUDE.md`](CLAUDE.md).
+This document describes how this repository is built and how to run it locally. It complements the assignment-focused `[README.md](README.md)`; architectural conventions for agents are in `[AGENTS.md](AGENTS.md)` and `[CLAUDE.md](CLAUDE.md)`.
 
 ## Stack
 
-| Layer | Technology |
-|-------|------------|
-| Framework | Next.js 16 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS v4 (configured in `src/app/globals.css`, no `tailwind.config.js`) |
-| UI | shadcn/ui-style components under `src/components/ui/` |
-| ORM | Prisma v6 |
-| Database | PostgreSQL |
-| Testing | Jest + React Testing Library (`jest-environment-jsdom`) |
+
+| Layer     | Technology                                                                     |
+| --------- | ------------------------------------------------------------------------------ |
+| Framework | Next.js 16 (App Router)                                                        |
+| Language  | TypeScript                                                                     |
+| Styling   | Tailwind CSS v4 (configured in `src/app/globals.css`, no `tailwind.config.js`) |
+| UI        | shadcn/ui-style components under `src/components/ui/`                          |
+| ORM       | Prisma v6                                                                      |
+| Database  | PostgreSQL                                                                     |
+| Testing   | Jest + React Testing Library (`jest-environment-jsdom`)                        |
+
 
 ## Prerequisites
 
@@ -27,7 +29,7 @@ npm install
 
 ## Environment variables
 
-Copy [`.env.example`](.env.example) to `.env` in the project root (`.env` is gitignored). Prisma expects:
+Copy `[.env.example](.env.example)` to `.env` in the project root (`.env` is gitignored). Prisma expects:
 
 ```bash
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
@@ -78,12 +80,14 @@ Re-running the seed updates existing rows when the upsert `update` block include
 
 ### Useful Prisma commands
 
-| Command | Purpose |
-|---------|---------|
-| `npx prisma studio` | Browse/edit data in the browser |
-| `npx prisma migrate dev` | Create and apply a new migration after schema changes |
-| `npm run db:push` | Push `schema.prisma` to the DB without creating migration files |
-| `npm run db:seed` | Run `prisma/seed.ts` |
+
+| Command                  | Purpose                                                         |
+| ------------------------ | --------------------------------------------------------------- |
+| `npx prisma studio`      | Browse/edit data in the browser                                 |
+| `npx prisma migrate dev` | Create and apply a new migration after schema changes           |
+| `npm run db:push`        | Push `schema.prisma` to the DB without creating migration files |
+| `npm run db:seed`        | Run `prisma/seed.ts`                                            |
+
 
 ## Run the app
 
@@ -106,13 +110,15 @@ Ensure `DATABASE_URL` is set in the deployment environment and migrations (or `d
 
 ## Quality checks
 
-| Script | Command |
-|--------|---------|
-| Lint | `npm run lint` |
-| Lint (fix) | `npm run lint:fix` |
-| Format | `npm run format` |
-| Tests | `npm run test` |
+
+| Script        | Command              |
+| ------------- | -------------------- |
+| Lint          | `npm run lint`       |
+| Lint (fix)    | `npm run lint:fix`   |
+| Format        | `npm run format`     |
+| Tests         | `npm run test`       |
 | Tests (watch) | `npm run test:watch` |
+
 
 Before committing, it is useful to run format, lint, and tests together:
 
@@ -150,8 +156,8 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5432/bookhaven?schema=pub
 
 ## Troubleshooting
 
-- **`PrismaClientInitializationError` / connection refused** — Postgres is not running or `DATABASE_URL` host/port/user/password/database is wrong.
+- `**PrismaClientInitializationError` / connection refused** — Postgres is not running or `DATABASE_URL` host/port/user/password/database is wrong.
 - **Empty homepage / “run seed” messaging** — Run `npm run db:seed` after the schema is applied.
 - **Schema drift** — After pulling changes that alter `prisma/schema.prisma`, run `npm run db:push` or `npx prisma migrate dev` again, then re-seed if needed.
 
-For deeper conventions (services, caching keys, cart hydration, testing mocks), see [`AGENTS.md`](AGENTS.md).
+For deeper conventions (services, caching keys, cart hydration, testing mocks), see `[AGENTS.md](AGENTS.md)`.
