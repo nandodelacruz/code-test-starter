@@ -1,29 +1,23 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Search, ShoppingCart } from "lucide-react";
+import { Search, ShoppingCart, Loader2 } from "lucide-react";
 
 import { SITE, ROUTES, LABELS } from "@/constants";
 import { Header } from "@/components/layout/Header";
 import { BookGrid } from "@/components/features/BookGrid";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useBookList } from "@/context/BookListContext";
 
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  price: number;
-  cover: string;
-}
-
-interface HomeContentProps {
-  books: Book[];
-}
-
-export function HomeContent({ books }: HomeContentProps) {
-  const [query, setQuery] = useState("");
+export function HomeContent() {
+  const {
+    books: filteredBooks,
+    searchQuery: query,
+    setSearchQuery: setQuery,
+    isLoading,
+  } = useBookList();
   const [showHeader, setShowHeader] = useState(false);
   const headingRef = useRef<HTMLDivElement>(null);
 
@@ -43,16 +37,6 @@ export function HomeContent({ books }: HomeContentProps) {
     return () => observer.disconnect();
   }, []);
 
-  const filteredBooks = useMemo(() => {
-    if (!query.trim()) return books;
-    const normalised = query.toLowerCase().trim();
-    return books.filter(
-      (book) =>
-        book.title.toLowerCase().includes(normalised) ||
-        book.author.toLowerCase().includes(normalised),
-    );
-  }, [books, query]);
-
   return (
     <>
       <Header searchQuery={query} onSearch={setQuery} visible={showHeader} />
@@ -65,38 +49,42 @@ export function HomeContent({ books }: HomeContentProps) {
           paddingBottom: "var(--space-3xl)",
         }}
       >
+        {/* Top bar for Cart */}
+        <div className="flex justify-end mb-8 sm:mb-12">
+          <Link href={ROUTES.CART}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full hover:bg-muted/50"
+              aria-label={`${LABELS.CART} (0 items)`}
+            >
+              <ShoppingCart className="h-5 w-5" />
+            </Button>
+          </Link>
+        </div>
+
         {/* Page heading + inline controls — observed for header reveal */}
-        <div ref={headingRef} className="mb-8 sm:mb-10">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
-                {SITE.NAME}
-              </h1>
-              <p className="mt-2 text-lg text-muted-foreground">
-                {SITE.TAGLINE}
-              </p>
-            </div>
-            <Link href={ROUTES.CART} className="shrink-0 mt-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                aria-label={`${LABELS.CART} (0 items)`}
-              >
-                <ShoppingCart className="h-5 w-5" />
-              </Button>
-            </Link>
-          </div>
+        <div
+          ref={headingRef}
+          className="flex flex-col items-center justify-center text-center mb-16 sm:mb-20"
+        >
+          <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
+            {SITE.NAME}
+          </h1>
+          <p className="mt-4 text-xl text-muted-foreground max-w-2xl">
+            {SITE.TAGLINE}
+          </p>
 
           {/* Inline search bar */}
-          <div className="mt-5 relative w-full max-w-md">
+          <div className="mt-8 relative w-full max-w-2xl">
             <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none"
+              className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none"
               aria-hidden="true"
             />
             <Input
               type="search"
               placeholder={SITE.SEARCH_PLACEHOLDER}
-              className="pl-9 h-10 text-sm"
+              className="pl-12 h-14 text-lg rounded-full shadow-sm hover:shadow-md transition-shadow duration-200 border-muted-foreground/20 focus-visible:ring-primary/20"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               aria-label="Search books by title or author"
@@ -105,7 +93,11 @@ export function HomeContent({ books }: HomeContentProps) {
         </div>
 
         {/* Book grid */}
-        {filteredBooks.length > 0 ? (
+        {isLoading ? (
+          <div className="flex justify-center items-center py-20">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        ) : filteredBooks.length > 0 ? (
           <BookGrid books={filteredBooks} />
         ) : (
           <div

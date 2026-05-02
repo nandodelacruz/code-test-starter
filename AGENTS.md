@@ -50,35 +50,56 @@ prisma/
 - **shadcn/ui**: Components are manually placed in `src/components/ui/`. Do NOT run `npx shadcn-ui add` — add components manually.
 - **Image Optimization**: Use `next/image`. For above-the-fold images (like the first row of books), always use the `priority` prop to satisfy LCP requirements.
 - **Linting & Formatting**: This project uses ESLint 9 (Flat Config) and Prettier. Always run `npm run format` and `npm run lint` before committing.
+- **Testing**: Tests are mandatory for all new services, API routes, and complex UI components. Run `npm run test` before submitting changes.
+
+## Architectural Patterns
+
+### 1. Service Layer
+All database operations and business logic should be encapsulated in a service class located in `src/lib/services/`.
+- Services should be stateless.
+- Use `next/cache` (`unstable_cache`) for data fetching to optimize performance.
+- Example: `BookService.list(query?: string)`
+
+### 2. Preloading & Context Pattern
+To ensure fast initial renders while maintaining client-side interactivity:
+1. **Preload** data in a Server Component using a service.
+2. **Initialize** a Feature Context (e.g., `BookListProvider`) with the preloaded data.
+3. **Consume** the context in Client Components to handle local state (like search query) and subsequent API updates.
+
+### 3. REST API Pattern
+Expose service methods via API routes in `src/app/api/` for client-side interactions.
+- API routes should be thin wrappers around the Service Layer.
+- Use proper HTTP status codes and standard JSON responses.
 
 ## Commands
 
 ```bash
 npm run dev        # Start the development server
-npm run build      # Build for production
-npm run test       # Run Jest tests
-npm run test:watch # Run Jest in watch mode
-npm run lint       # Run ESLint 9 (flat config)
+npm run test       # Run all Jest tests
+npm run lint       # Run ESLint 9 check
 npm run lint:fix   # Auto-fix lint issues
 npm run format     # Format code with Prettier
-npm run db:push    # Sync Prisma schema to the database
-npm run db:seed    # Seed the database with initial book data
+npm run db:push    # Sync Prisma schema
+npm run db:seed    # Seed initial data
 ```
-
-## Database Setup (Local)
-
-1. PostgreSQL is running via Homebrew (`brew services start postgresql@17`)
-2. Database name: `bookshop`
-3. Connection string is in `.env` (not committed to git)
-4. Run `npx prisma generate` after any schema changes before using the Prisma client
 
 ## Testing Guidelines
 
-- Tests live alongside source files in `__tests__/` directories or as `*.test.tsx` files.
-- Use React Testing Library for component tests.
-- Test **behaviour**, not implementation details.
-- Minimum 11 tests required (per README), covering cart operations and key components.
-- Mock Prisma for unit tests to avoid hitting the real database.
+- **Location**: Tests live in `__tests__/` subdirectories next to the source file.
+- **Mandatory Coverage**: 
+  - **Services**: Mock Prisma and cache to test logic.
+  - **API Routes**: Mock the service layer and `NextResponse`.
+  - **Context/UI**: Use React Testing Library to verify state transitions and side effects (e.g., debounced API calls).
+- **Mocks**: Always use proper TypeScript types when mocking (e.g., `as unknown as NextRequest`) rather than `any`.
+- **Clean Tests**: Avoid console errors/warnings in tests by mocking external dependencies (like `next/image` or `IntersectionObserver`).
+
+## Development Workflow
+
+1. **Implement Logic**: Create/update the Service.
+2. **Write Tests**: Add unit tests for the Service.
+3. **Expose API**: Create the API route (if needed) and test it.
+4. **Build UI**: Create/update components and Context, then add UI tests.
+5. **Verify**: Run `npm run format`, `npm run lint`, and `npm run test`.
 
 ## Cart Requirements
 

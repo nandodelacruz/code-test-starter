@@ -1,12 +1,6 @@
 import { BookCard } from "@/components/features/BookCard";
 
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  price: number;
-  cover: string;
-}
+import { Book } from "@/types";
 
 interface BookGridProps {
   books: Book[];

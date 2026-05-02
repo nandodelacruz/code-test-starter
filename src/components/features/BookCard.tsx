@@ -9,12 +9,9 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-interface BookCardProps {
-  id: number;
-  title: string;
-  author: string;
-  price: number;
-  cover: string;
+import { Book } from "@/types";
+
+interface BookCardProps extends Book {
   priority?: boolean;
 }
 

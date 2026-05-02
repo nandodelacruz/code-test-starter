@@ -1,13 +1,15 @@
-import prisma from "@/lib/db";
-
 import { SITE } from "@/constants";
 import { HomeContent } from "@/components/features/HomeContent";
+import { BookService } from "@/lib/services/book.service";
+import { BookListProvider } from "@/context/BookListContext";
 
 export default async function Home() {
-  const books = await prisma.book.findMany();
+  const books = await BookService.list();
 
   return books.length > 0 ? (
-    <HomeContent books={books} />
+    <BookListProvider initialBooks={books}>
+      <HomeContent />
+    </BookListProvider>
   ) : (
     <main
       className="flex-1 mx-auto w-full px-4 sm:px-6 lg:px-8"
