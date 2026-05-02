@@ -2,6 +2,9 @@
 export const ROUTES = {
   HOME: "/",
   CART: "/cart",
+  BOOK_DETAIL: "/book",
+  CHECKOUT: "/checkout",
+  CHECKOUT_SUCCESS: "/checkout/success",
 } as const;
 
 // UI strings
@@ -24,6 +27,10 @@ export const LABELS = {
   CHECKOUT: "Checkout",
   CONTINUE_SHOPPING: "Continue Shopping",
   VIEW_FULL_CART: "View Full Cart",
+  ISBN: "ISBN",
+  DESCRIPTION: "Description",
+  BOOK_DETAILS: "Book Details",
+  PLACE_ORDER: "Place Order",
 } as const;
 
 // Site-wide messages

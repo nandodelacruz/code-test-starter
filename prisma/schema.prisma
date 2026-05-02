@@ -11,9 +11,11 @@ datasource db {
 }
 
 model Book {
-  id     Int    @id @default(autoincrement())
-  title  String
-  author String
-  price  Float
-  cover  String
+  id          Int     @id @default(autoincrement())
+  title       String
+  author      String
+  price       Float
+  cover       String
+  description String? @default("A fascinating read.")
+  isbn        String?
 }

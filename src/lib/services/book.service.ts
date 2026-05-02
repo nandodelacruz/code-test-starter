@@ -35,4 +35,18 @@ export const BookService = {
       tags: ["books"],
     },
   ),
+  getById(id: number) {
+    return unstable_cache(
+      async () => {
+        return prisma.book.findUnique({
+          where: { id },
+        });
+      },
+      ["book-detail", String(id)],
+      {
+        revalidate: 3600,
+        tags: ["books"],
+      },
+    )();
+  },
 };

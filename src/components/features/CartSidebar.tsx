@@ -22,6 +22,21 @@ export function CartSidebar() {
   } = useCart();
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const prevOpenRef = useRef(false);
+
+  // Focus close when opening; return focus to header cart when closing
+  useEffect(() => {
+    if (isOpen && !prevOpenRef.current) {
+      requestAnimationFrame(() => {
+        document.getElementById("cart-close-button")?.focus();
+      });
+    } else if (!isOpen && prevOpenRef.current) {
+      requestAnimationFrame(() => {
+        document.getElementById("header-cart-button")?.focus();
+      });
+    }
+    prevOpenRef.current = isOpen;
+  }, [isOpen]);
 
   // Lock body scroll while open
   useEffect(() => {
@@ -215,8 +230,11 @@ export function CartSidebar() {
               id="cart-checkout-button"
               className="w-full font-semibold h-11 shadow-sm hover:shadow-md transition-shadow"
               aria-label="Proceed to checkout"
+              asChild
             >
-              {LABELS.CHECKOUT}
+              <Link href={ROUTES.CHECKOUT} onClick={closeCart}>
+                {LABELS.CHECKOUT}
+              </Link>
             </Button>
 
             <Button

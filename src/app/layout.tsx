@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { CartProvider } from "@/context/CartContext";
 import { CartSidebar } from "@/components/features/CartSidebar";
+import { CartAnnouncer } from "@/components/features/CartAnnouncer";
+import { ErrorBoundaryShell } from "@/components/providers/ErrorBoundaryShell";
 import { SITE } from "@/constants";
 import "./globals.css";
 
@@ -28,9 +30,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} flex min-h-screen flex-col`}>
         <CartProvider>
-          {children}
-          <CartSidebar />
-          <Footer />
+          <ErrorBoundaryShell>
+            <CartAnnouncer />
+            {children}
+            <CartSidebar />
+            <Footer />
+          </ErrorBoundaryShell>
         </CartProvider>
       </body>
     </html>

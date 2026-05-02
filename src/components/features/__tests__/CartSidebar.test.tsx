@@ -4,7 +4,7 @@
  */
 
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 
 import { CartSidebar } from "@/components/features/CartSidebar";
 import { CartContext } from "@/context/CartContext";
@@ -25,10 +25,22 @@ jest.mock("next/link", () => ({
   default: ({
     children,
     href,
+    onClick,
   }: {
     children: React.ReactNode;
     href: string;
-  }) => <a href={href}>{children}</a>,
+    onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+  }) => (
+    <a
+      href={href}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick?.(e);
+      }}
+    >
+      {children}
+    </a>
+  ),
 }));
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -46,12 +58,14 @@ const baseCtx = {
   items: [] as CartItem[],
   totalItems: 0,
   totalPrice: 0,
+  isHydrated: true,
   isOpen: true,
   openCart: jest.fn(),
   closeCart: jest.fn(),
   addToCart: jest.fn(),
   removeFromCart: jest.fn(),
   updateQuantity: jest.fn(),
+  clearCart: jest.fn(),
 };
 
 function renderWithContext(overrides: Partial<typeof baseCtx> = {}) {
@@ -66,7 +80,21 @@ function renderWithContext(overrides: Partial<typeof baseCtx> = {}) {
 // ─── Tests ───────────────────────────────────────────────────────────────────
 
 describe("CartSidebar", () => {
-  beforeEach(() => jest.clearAllMocks());
+  let rafSpy: jest.SpyInstance<number, [FrameRequestCallback]>;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    rafSpy = jest
+      .spyOn(window, "requestAnimationFrame")
+      .mockImplementation((cb) => {
+        (cb as FrameRequestCallback)(0);
+        return 0;
+      });
+  });
+
+  afterEach(() => {
+    rafSpy.mockRestore();
+  });
 
   it("renders the sidebar heading", () => {
     renderWithContext();
@@ -151,5 +179,37 @@ describe("CartSidebar", () => {
     const viewFullCartLink = screen.getByText(/view full cart/i);
     expect(viewFullCartLink).toBeInTheDocument();
     expect(viewFullCartLink.closest("a")).toHaveAttribute("href", "/cart");
+  });
+
+  it("renders Checkout link to /checkout and closes cart on click", () => {
+    const closeCart = jest.fn();
+    renderWithContext({
+      items: [mockItem],
+      totalItems: 2,
+      totalPrice: 25.98,
+      closeCart,
+    });
+    const checkoutLink = screen.getByRole("link", { name: /^checkout$/i });
+    expect(checkoutLink).toHaveAttribute("href", "/checkout");
+    fireEvent.click(checkoutLink);
+    expect(closeCart).toHaveBeenCalled();
+  });
+
+  it("focuses the close button when the cart opens", async () => {
+    const { rerender } = render(
+      <CartContext.Provider value={{ ...baseCtx, isOpen: false }}>
+        <CartSidebar />
+      </CartContext.Provider>,
+    );
+    rerender(
+      <CartContext.Provider value={{ ...baseCtx, isOpen: true }}>
+        <CartSidebar />
+      </CartContext.Provider>,
+    );
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        document.getElementById("cart-close-button"),
+      );
+    });
   });
 });

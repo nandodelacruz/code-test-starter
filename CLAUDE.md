@@ -11,7 +11,7 @@ BookHaven is a full-stack bookshop code test built with Next.js 16 (App Router),
 1. **App Router only** — never create files inside `pages/`. All routes live in `src/app/`.
 2. **Tailwind v4** — no `tailwind.config.js`. CSS-only configuration in `globals.css`.
 3. **Prisma client** — always import from `@/lib/db`.
-4. **Service Layer** — wrap database logic in `src/lib/services/` with `unstable_cache`.
+4. **Service Layer** — wrap database logic in `src/lib/services/` with `unstable_cache`. **Include every varying input in the cache key** (e.g. `getById(id)` → key contains `String(id)`).
 5. **Preloading** — Server Components fetch via services and pass data to Context Providers.
 6. **REST API** — expose services via `src/app/api/` for client-side functionality.
 7. **`"use client"` sparingly** — use only for interactive components/contexts.
@@ -28,7 +28,15 @@ import { unstable_cache } from "next/cache";
 export const MyService = {
   list: unstable_cache(async () => {
     return await prisma.item.findMany();
-  }, ["items"], { revalidate: 3600, tags: ["items"] })
+  }, ["items"], { revalidate: 3600, tags: ["items"] }),
+
+  getById(id: number) {
+    return unstable_cache(
+      async () => prisma.item.findUnique({ where: { id } }),
+      ["items", "detail", String(id)],
+      { revalidate: 3600, tags: ["items"] },
+    )();
+  },
 };
 ```
 
@@ -52,6 +60,10 @@ export default async function Page() {
 ## Gotchas
 
 - **Image Mocking**: In tests, mock `next/image` to avoid LCP/src errors.
+- **`BookCard`**: Always `import Image from "next/image"` — never use the DOM `Image` global in JSX.
+- **Cart hydration**: Use `isHydrated` from `useCart()` before redirecting or branching on empty cart after navigation.
+- **`next/link` in tests**: Mock with `preventDefault` on click when you need `onClick` handlers (e.g. closing the cart) without jsdom navigation errors.
 - **IntersectionObserver**: Mock this in tests for components using scroll animations.
 - **Prisma v6**: Do not suggest Prisma v7+ features (like `prisma.config.ts`).
+- **Schema changes**: Prefer `npx prisma migrate dev` for migrations; `npm run db:push` for quick local sync.
 - **Turbopack**: Default dev server; check compatibility for complex plugins.

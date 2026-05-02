@@ -21,12 +21,15 @@ interface CartContextValue {
   items: CartItem[];
   totalItems: number;
   totalPrice: number;
+  /** True after localStorage has been read on the client */
+  isHydrated: boolean;
   isOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
   addToCart: (book: Book) => void;
   removeFromCart: (id: number) => void;
   updateQuantity: (id: number, delta: number) => void;
+  clearCart: () => void;
 }
 
 // ─── Context ────────────────────────────────────────────────────────────────
@@ -85,6 +88,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const clearCart = useCallback(() => {
+    setItems([]);
+  }, []);
+
   const openCart = useCallback(() => setIsOpen(true), []);
   const closeCart = useCallback(() => setIsOpen(false), []);
 
@@ -97,12 +104,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
         items,
         totalItems,
         totalPrice,
+        isHydrated: hydrated,
         isOpen,
         openCart,
         closeCart,
         addToCart,
         removeFromCart,
         updateQuantity,
+        clearCart,
       }}
     >
       {children}

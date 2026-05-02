@@ -17,24 +17,57 @@ jest.mock("@/context/CartContext", () => ({
     addToCart: jest.fn(),
     removeFromCart: jest.fn(),
     updateQuantity: jest.fn(),
+    clearCart: jest.fn(),
     items: [],
     totalPrice: 0,
+    isHydrated: true,
     isOpen: false,
   })),
 }));
 
-// Mock next/image to avoid src issues in tests
-jest.mock("next/image", () => ({
+jest.mock("next/link", () => ({
   __esModule: true,
   default: ({
-    priority,
-    ...props
+    children,
+    href,
   }: {
-    priority?: boolean;
-    [key: string]: unknown;
-  }) => {
-    // eslint-disable-next-line @next/next/no-img-element
-    return <img data-priority={priority ? "true" : undefined} {...props} />;
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
+}));
+
+// Mock next/image — forward only serialisable DOM props (Next 16 may pass non-DOM props)
+jest.mock("next/image", () => ({
+  __esModule: true,
+  default: (props: Record<string, unknown>) => {
+    const alt = typeof props.alt === "string" ? props.alt : "";
+    const src =
+      typeof props.src === "string"
+        ? props.src
+        : props.src &&
+            typeof props.src === "object" &&
+            "src" in props.src &&
+            typeof (props.src as { src: unknown }).src === "string"
+          ? (props.src as { src: string }).src
+          : "";
+    const width = typeof props.width === "number" ? props.width : undefined;
+    const height = typeof props.height === "number" ? props.height : undefined;
+    const className =
+      typeof props.className === "string" ? props.className : undefined;
+    const sizes = typeof props.sizes === "string" ? props.sizes : undefined;
+    const priority = Boolean(props.priority);
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- test double for next/image
+      <img
+        alt={alt}
+        src={src}
+        width={width}
+        height={height}
+        className={className}
+        sizes={sizes}
+        data-priority={priority ? "true" : undefined}
+      />
+    );
   },
 }));
 

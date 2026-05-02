@@ -20,23 +20,29 @@ BookHaven is an online bookshop built as a code test. It is a full-stack Next.js
 
 ```
 src/
-  app/             # Next.js App Router pages (NOT pages/ directory)
-    layout.tsx     # Root layout
-    page.tsx       # Homepage (Server Component, fetches from DB)
-    cart/          # Cart page (to be built)
-    globals.css    # Tailwind v4 + shadcn CSS variables
+  app/                  # Next.js App Router pages (NOT pages/ directory)
+    layout.tsx          # Root layout (CartProvider + ErrorBoundaryShell + shell UI)
+    page.tsx            # Homepage (Server Component, fetches from DB)
+    error.tsx           # Route-level error UI (reset + link home)
+    cart/               # Full cart page
+    book/[id]/          # Book detail (Server Component, BookService.getById)
+    checkout/           # Mock checkout form + success page
+    globals.css         # Tailwind v4 + shadcn CSS variables
   components/
-    ui/            # shadcn/ui base components (Button, Card, etc.)
-    features/      # Feature-specific components (BookCard, CartItem, etc.)
-    layout/        # Layout components (Header, Footer, etc.)
+    ui/                 # shadcn/ui base components (Button, Card, etc.)
+    features/           # BookCard, CartSidebar, CartAnnouncer, ErrorBoundary, etc.
+    layout/             # Header, Footer
+    providers/          # Client shells (e.g. ErrorBoundaryShell)
+  context/             # CartContext, BookListContext
   lib/
-    db.ts          # Singleton Prisma client
-    books.ts       # Static book data (used for seeding)
-    utils.ts       # cn() utility for class merging
-  constants/       # Centralised string constants
+    db.ts               # Singleton Prisma client
+    books.ts            # Static book data (used for seeding)
+    services/           # BookService + unstable_cache
+    utils.ts            # cn() utility for class merging
+  constants/            # Centralised string constants
 prisma/
-  schema.prisma    # Database schema (Book model)
-  seed.ts          # Seed script for initial data
+  schema.prisma         # Book model (title, author, price, cover, description?, isbn?)
+  seed.ts               # Upsert seed (update path syncs fields from books.ts)
 ```
 
 ## Key Conventions
@@ -58,7 +64,8 @@ prisma/
 All database operations and business logic should be encapsulated in a service class located in `src/lib/services/`.
 - Services should be stateless.
 - Use `next/cache` (`unstable_cache`) for data fetching to optimize performance.
-- Example: `BookService.list(query?: string)`
+- **`unstable_cache` key parts must include every argument that changes the result.** For example, `BookService.getById(id)` uses key `["book-detail", String(id)]` and invokes the cached function per call — a single static key like `["book-detail"]` would incorrectly share one cache entry across all IDs.
+- Example: `BookService.list(query?: string)`, `BookService.getById(id: number)`
 
 ### 2. Preloading & Context Pattern
 To ensure fast initial renders while maintaining client-side interactivity:
@@ -79,9 +86,11 @@ npm run test       # Run all Jest tests
 npm run lint       # Run ESLint 9 check
 npm run lint:fix   # Auto-fix lint issues
 npm run format     # Format code with Prettier
-npm run db:push    # Sync Prisma schema
-npm run db:seed    # Seed initial data
+npm run db:push    # Sync Prisma schema to DB (no migration history)
+npm run db:seed    # Seed initial data (upsert; update path refreshes fields from books.ts)
 ```
+
+When adding or changing schema fields for production-style workflows, use **`npx prisma migrate dev`** (creates migration SQL). Use `db:push` for quick local alignment when appropriate.
 
 ## Testing Guidelines
 
@@ -92,6 +101,8 @@ npm run db:seed    # Seed initial data
   - **Context/UI**: Use React Testing Library to verify state transitions and side effects (e.g., debounced API calls).
 - **Mocks**: Always use proper TypeScript types when mocking (e.g., `as unknown as NextRequest`) rather than `any`.
 - **Clean Tests**: Avoid console errors/warnings in tests by mocking external dependencies (like `next/image` or `IntersectionObserver`).
+- **`next/link` in jsdom**: For controls that call `onClick` before navigation (e.g. cart drawer `closeCart`), mock `Link` with `preventDefault` so handlers still run.
+- **Cart sidebar focus tests**: Stub `requestAnimationFrame` to run synchronously so focus assertions are deterministic.
 
 ## Development Workflow
 
@@ -106,4 +117,15 @@ npm run db:seed    # Seed initial data
 - Cart state must be **centralised** (React Context or equivalent).
 - Minimum prop drilling.
 - Cart must **persist** across page refreshes (use `localStorage`).
-- Support: Add to cart, Remove from cart, view total.
+- Support: Add to cart, Remove from cart, quantity updates, clear cart, view total.
+- **`isHydrated`**: `CartContext` exposes `isHydrated` after the initial `localStorage` read. Client routes that depend on cart contents (e.g. `/checkout`) must not redirect or assume emptiness until `isHydrated` is true.
+- **Accessibility**: `CartAnnouncer` (`aria-live="polite"`) announces cart changes; cart sidebar focuses the close control when opened and returns focus to `#header-cart-button` when closed.
+
+## Errors & boundaries
+
+- **`src/app/error.tsx`**: App Router error boundary UI for the segment (includes `reset`).
+- **`ErrorBoundary` + `ErrorBoundaryShell`**: Class boundary wrapping client shell (cart, footer, page children) in root layout for subtree failures without relying solely on `error.tsx`.
+
+## Client-only reminders
+
+- **`BookCard`** must import `Image` from `next/image` (never rely on the DOM global `Image` constructor).

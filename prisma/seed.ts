@@ -8,13 +8,22 @@ async function main() {
   for (const b of books) {
     const book = await prisma.book.upsert({
       where: { id: b.id },
-      update: {},
+      update: {
+        title: b.title,
+        author: b.author,
+        price: b.price,
+        cover: b.cover,
+        description: b.description,
+        isbn: b.isbn,
+      },
       create: {
         id: b.id,
         title: b.title,
         author: b.author,
         price: b.price,
         cover: b.cover,
+        description: b.description,
+        isbn: b.isbn,
       },
     });
     console.log(`Created book with id: ${book.id}`);

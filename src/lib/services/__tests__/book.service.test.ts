@@ -7,6 +7,7 @@ jest.mock("@/lib/db", () => ({
   default: {
     book: {
       findMany: jest.fn(),
+      findUnique: jest.fn(),
     },
   },
 }));
@@ -63,5 +64,34 @@ describe("BookService", () => {
       },
     });
     expect(result).toEqual(mockBooks);
+  });
+
+  it("should return a single book by id", async () => {
+    const mockBook = {
+      id: 7,
+      title: "Dune",
+      author: "Frank Herbert",
+      price: 14.99,
+      cover: "/dune.jpg",
+      description: "Desert planet.",
+      isbn: "978-0",
+    };
+    (prisma.book.findUnique as jest.Mock).mockResolvedValue(mockBook);
+
+    const result = await BookService.getById(7);
+
+    expect(prisma.book.findUnique).toHaveBeenCalledWith({ where: { id: 7 } });
+    expect(result).toEqual(mockBook);
+  });
+
+  it("should return null when no book matches id", async () => {
+    (prisma.book.findUnique as jest.Mock).mockResolvedValue(null);
+
+    const result = await BookService.getById(99999);
+
+    expect(prisma.book.findUnique).toHaveBeenCalledWith({
+      where: { id: 99999 },
+    });
+    expect(result).toBeNull();
   });
 });
