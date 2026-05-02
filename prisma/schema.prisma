@@ -6,8 +6,10 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Neon + Vercel inject this automatically; use the same value as DATABASE_URL locally.
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 model Book {
