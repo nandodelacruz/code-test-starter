@@ -5,12 +5,7 @@ import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 
 import { LABELS, ROUTES } from "@/constants";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 import { Book } from "@/types";
@@ -69,22 +64,19 @@ export function BookCard({
       className="block group h-full"
       aria-label={`View details for ${title}`}
     >
-      <Card className="flex flex-col h-full overflow-hidden transition-all duration-[var(--transition-base)] hover:shadow-xl hover:border-primary/20 bg-background border">
-        <CardHeader className="p-0">
-          <div className="aspect-[2/3] overflow-hidden bg-secondary relative">
-            <Image
-              src={cover}
-              alt={`Cover of ${title}`}
-              fill
-              className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              priority={priority}
-            />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
-          </div>
-        </CardHeader>
+      <Card className="flex flex-col h-full rounded-xl border bg-card p-4 shadow-sm transition-all duration-500 hover:border-primary/15 hover:shadow-md">
+        <div className="relative mb-4 aspect-[3/4] w-full overflow-hidden rounded-xl bg-muted shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
+          <Image
+            src={cover}
+            alt={`Cover of ${title}`}
+            fill
+            className="object-contain p-3 sm:p-4"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            priority={priority}
+          />
+        </div>
 
-        <CardContent className="flex-1 p-5">
+        <CardContent className="flex-1 p-0">
           <h3 className="text-base font-bold leading-tight line-clamp-2 mb-1.5 group-hover:text-primary transition-colors">
             {title}
           </h3>
@@ -98,7 +90,7 @@ export function BookCard({
           </div>
         </CardContent>
 
-        <CardFooter className="p-5 pt-0">
+        <CardFooter className="mt-auto p-0 pt-2">
           <AddToCartButton
             book={{ id, title, author, price, cover, description, isbn }}
           />

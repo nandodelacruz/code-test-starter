@@ -43,11 +43,9 @@ export function HomeContent() {
       <Header searchQuery={query} onSearch={setQuery} visible={showHeader} />
 
       <main
-        className="flex-1 mx-auto w-full px-4 sm:px-6 lg:px-8"
+        className="flex-1 mx-auto w-full px-4 py-8 sm:px-6 md:py-16 lg:px-8 pb-16 sm:pb-20 md:pb-24"
         style={{
           maxWidth: "var(--container-max)",
-          paddingTop: "var(--space-xl)",
-          paddingBottom: "var(--space-3xl)",
         }}
       >
         {/* Top bar for Cart */}
